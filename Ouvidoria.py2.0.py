@@ -1,17 +1,10 @@
-import mysql.connector
 
+from operacoesbd import *
 
-# Função para conectar ao banco de dados
-def conectar():
-    return mysql.connector.connect(
-        host="localhost",
-        user="seu_usuario",
-        password="sua_senha",
-        database="ouvidoria"
-    )
+numero = int(input('Digite um número: '))
 
+conexao = criarConexao('128.0.0.1', 'root', ':8k&7!/hudswJ9q', 'ouvidoria')
 
-# Listagem das Manifestações
 def listar_manifestacoes(conn):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM manifestacoes")
@@ -22,8 +15,6 @@ def listar_manifestacoes(conn):
         for manifestacao in manifestacoes:
             print(manifestacao)
 
-
-# Listagem de Manifestações por Tipo
 def listar_manifestacoes_por_tipo(conn):
     tipo = input("Digite o tipo de manifestação (reclamação, elogio, sugestão): ").strip()
     cursor = conn.cursor()
@@ -35,8 +26,6 @@ def listar_manifestacoes_por_tipo(conn):
         for manifestacao in manifestacoes:
             print(manifestacao)
 
-
-# Criar uma nova Manifestação
 def criar_manifestacao(conn):
     tipo = input("Digite o tipo de manifestação (reclamação, elogio, sugestão): ").strip()
     nome = input("Digite seu nome: ").strip()
@@ -51,7 +40,6 @@ def criar_manifestacao(conn):
     conn.commit()
     print("Nova manifestação criada com sucesso!")
 
-
 # Exibir quantidade de manifestações
 def quantidade_manifestacoes(conn):
     cursor = conn.cursor()
@@ -59,8 +47,6 @@ def quantidade_manifestacoes(conn):
     count = cursor.fetchone()[0]
     print(f"Quantidade de manifestações: {count}")
 
-
-# Pesquisar uma manifestação por código
 def pesquisar_manifestacao_por_codigo(conn):
     codigo = int(input("Digite o código da manifestação: ").strip())
     cursor = conn.cursor()
@@ -83,8 +69,6 @@ def excluir_manifestacao_por_codigo(conn):
     else:
         print("Manifestação excluída com sucesso!")
 
-
-# Menu do sistema
 def menu():
     conn = conectar()
     while True:
